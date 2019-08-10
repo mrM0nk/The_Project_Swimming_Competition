@@ -1,7 +1,7 @@
 import json
 
 
-class result:
+class Result:
 
     def __init__(self, fistname, lastname, year_of_birth, gender, club=None, city=None, time=None, disqualification=None):
         self.fistname = fistname
@@ -24,7 +24,7 @@ class result:
         return dict.fromkeys(keys, values)
 
 
-class event:
+class Event:
 
     def __init__(self, title, location, date):
         self.title = title
@@ -36,7 +36,7 @@ class event:
         values = [self.title, self.location, self.date]
         return dict.fromkeys(keys, values)
 
-class pool:
+class Pool:
 
     def __init__(self, title, size):
         self.title = title
@@ -46,7 +46,7 @@ class pool:
         return {"title": self.title, "size": self.size}
 
 
-class competition:
+class Competition:
 
     def __init__(self, event, pool, category, style, distance, results=None):
         self.event = event
@@ -71,7 +71,7 @@ class competition:
     def save_json(self, file_name=None):
         if file_name is None:
             file_name = "{} {} {}".format(self.category, self.discipline["style"], self.discipline["distance"])
-        with open(str(file_name) + ".json", "w") as write_file:
+        with open(str(file_name) + ".json", "w", encoding='utf-8') as write_file:
             json.dump(self.get_attributes(), write_file)
 
 
