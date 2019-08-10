@@ -55,8 +55,8 @@ class competition:
         self.discipline = {"style": style, "distance": distance}
         self.results = [] if results is None else results
 
-    def add_result(self):
-        pass
+    def add_result(self, result):
+        self.results.append(result)
 
     def get_attributes(self):
         results = [ res.get_attributes() for res in self.results]
@@ -67,4 +67,11 @@ class competition:
                   self.discipline,
                   results]
         return dict.fromkeys(keys, values)
+
+    def save_json(self, file_name=None):
+        if file_name is None:
+            file_name = "{} {} {}".format(self.category, self.discipline["style"], self.discipline["distance"])
+        with open(str(file_name) + ".json", "w") as write_file:
+            json.dump(self.get_attributes(), write_file)
+
 
