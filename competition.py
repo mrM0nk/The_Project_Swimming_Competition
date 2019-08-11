@@ -25,7 +25,7 @@ class Result:
                   self.time,
                   self.disqualification,
                   self.rang]
-        return dict.fromkeys(keys, values)
+        return {key: value for (key, value) in zip(keys, values)}
 
 
 class Event:
@@ -36,9 +36,7 @@ class Event:
         self.date = date
 
     def get_attributes(self):
-        keys = ["title", "location", "date"]
-        values = [self.title, self.location, self.date]
-        return dict.fromkeys(keys, values)
+        return {"title": self.title, "location": self.location, "date": self.date}
 
 class Pool:
 
@@ -70,7 +68,7 @@ class Competition:
                   self.category,
                   self.discipline,
                   results]
-        return dict.fromkeys(keys, values)
+        return {key: value for (key, value) in zip(keys, values)}
 
     def save_json(self, file_name=None):
         if file_name is None:

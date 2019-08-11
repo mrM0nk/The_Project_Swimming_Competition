@@ -5,7 +5,7 @@ from file_pdf import *
 def get_pool(string):
     string = string.split(',')[1]
     start, end = string.index(' ('), string.index('м)')
-    return Pool(title=string[1: start + 1], size=string[start + 1: end])
+    return Pool(title=string[1: start + 1], size=string[start + 2: end])
 
 def get_discipline(string):
     distance, style = string.split('м ')
@@ -44,15 +44,11 @@ def get_result(string, gender):
     return result
 
 
-
 def parser(file_name):
     pdf = Pdf(file_name)
     content, event = pdf.get_content()
-    print(event.get_attributes())
     new_competition, new_pool, distance, style, gender = None, None, None, None, None
     for namb, page in enumerate(content):
-        if namb > 2:
-            break
         for i, element in enumerate(page):
             if i in (0, 1, 3, 4, 5):
                 continue
@@ -63,8 +59,6 @@ def parser(file_name):
             elif element[0] > 185 and element[0] < 230:
                 if new_competition is not None:
                     new_competition.save_json()
-                    # for i in new_competition.get_attributes():
-                    #     print(i)
                 category = element[4]
                 if "Девочки" in category or "Девушки" in category or "Женщины" in category or "Юниорки" in category:
                     gender = "famale"
