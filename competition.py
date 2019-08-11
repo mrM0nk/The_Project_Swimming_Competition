@@ -3,24 +3,28 @@ import json
 
 class Result:
 
-    def __init__(self, fistname, lastname, year_of_birth, gender, club=None, city=None, time=None, disqualification=None):
+    def __init__(self, lastname, fistname, year_of_birth, gender, **kwargs):
         self.fistname = fistname
-        self.lastname = lastname,
+        self.lastname = lastname
         self.year_of_birth = int(year_of_birth)
         self.gender = gender
+        club = kwargs["club"] if "club" in kwargs else None
+        city = kwargs["city"] if "city" in kwargs else None
         self.club = {"club": club, "city": city}
-        self.time = time
-        self.disqualification = disqualification
+        self.time = kwargs["time"] if "time" in kwargs else None
+        self.disqualification = kwargs["disqualification"] if "disqualification" in kwargs else None
+        self.rang = kwargs["rang"] if "rang" in kwargs else None
 
     def get_attributes(self):
-        keys = ["fistname", "lastname", "year_of_birth", "gender", "club", "time", "disqualification"]
+        keys = ["fistname", "lastname", "year_of_birth", "gender", "club", "time", "disqualification", "rang"]
         values = [self.fistname,
                   self.lastname,
                   self.year_of_birth,
                   self.gender,
                   self.club,
                   self.time,
-                  self.disqualification]
+                  self.disqualification,
+                  self.rang]
         return dict.fromkeys(keys, values)
 
 
@@ -59,7 +63,7 @@ class Competition:
         self.results.append(result)
 
     def get_attributes(self):
-        results = [ res.get_attributes() for res in self.results]
+        results = [ result.get_attributes() for result in self.results]
         keys = ["event", "pool", "category", "discipline", "results"]
         values = [self.event.get_attributes(),
                   self.pool.get_attributes(),
@@ -71,7 +75,7 @@ class Competition:
     def save_json(self, file_name=None):
         if file_name is None:
             file_name = "{} {} {}".format(self.category, self.discipline["style"], self.discipline["distance"])
-        with open(str(file_name) + ".json", "w", encoding='utf-8') as write_file:
-            json.dump(self.get_attributes(), write_file)
-
+        with open(str(file_name) + ".json", "w", encoding="utf-8") as write_file:
+            json.dump(self.get_attributes(), write_file, sort_keys=False, indent=4,
+                      ensure_ascii=False)
 
