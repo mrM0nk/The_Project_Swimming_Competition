@@ -1,0 +1,72 @@
+{
+  "event": {
+    "name": "7-й традицонный турнир <<Кубок надежд>> в программе открытого первенства минской области",
+    "description": "",
+    "stage": 1,
+    "competition": [
+      {
+        "comp_date": "09.09.2017",
+        "comp_city": "г. Борисов",
+        "comp_country": "Belarus",
+        "comp_chief_judge": "А. Н. Нестеров",
+        "comp_chief_secretary": "В. В. Павлов",
+        "discipline": {
+          "style": "компексное плавание",
+          "distance": 100
+        },
+        "group": {
+          "name": "5-й класс и младше",
+          "gender": "w"
+        },
+        "record": {
+          "first_name": "Анастасия",
+          "last_name": "Шкурдай",
+          "birth_year": 2003,
+          "gender": "w",
+          "club_name": "ГСУСУ <<БОЦОРВВС>>",
+          "club_city": "г. Брест",
+          "club_country": "Belarus",
+          "start_rank": "1 р",
+          "record_time": "00:01:15.13",
+          "record_date": "13.06.2014"
+        },
+        "result": [
+          {
+            "first_name": "Вероника",
+            "last_name": "Корнеенко",
+            "birth_year": 2007,
+            "gender": "w",
+            "club_name": "ДЮСШ <<Янтарь>>",
+            "club_city": "г. Минск",
+            "club_country": "Belarus",
+            "start_rank": "3 р",
+            "result_time": "00:01:24.67",
+            "dsq": null,
+            "reason": null,
+            "duration": null
+          },
+          {
+            "first_name": "Анна",
+            "last_name": "Высоцкая",
+            "birth_year": 2006,
+            "gender": "w",
+            "club_name": "ДЮСШ <<Янтарь>>",
+            "club_city": "г. Минск",
+            "club_country": "Belarus",
+            "start_rank": "1 юн",
+            "result_time": null,
+            "dsq": "DNS",
+            "reason": "сошел",
+            "duration": null
+          }
+        ]
+      }
+    ]
+  },
+  "pool": {
+    "pool_name": "бассейн <<Спорткомбината>>",
+    "pool_city": "г. Борисов",
+    "pool_country": "Belarus",
+    "pool_size": 25
+  }
+}
