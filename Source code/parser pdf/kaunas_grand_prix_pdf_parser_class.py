@@ -9,9 +9,9 @@ class KaunasGrandPrixParser(Parser):
 
     def __init__(self):
         self.competition_area_pattern = re.compile(r'^[Ee]vent.+\n'
-                                              r'^\d{4}.+\n'
-                                              r'^[Pp]oints.+\n'
-                                              r'^\w.+\n', re.MULTILINE)
+                                                   r'^\d{4}.+\n'
+                                                   r'^[Pp]oints.+\n'
+                                                   r'^\w.+\n', re.MULTILINE)
         self.page_delimiter_pattern1 = re.compile(r'^.+Page\s\d+\n(.+\n)*?^Event.+\n', re.MULTILINE)
         self.page_delimiter_pattern2 = re.compile(r'^.+Page\s+\d+\n(.+\n)*', re.MULTILINE)
         self.athelete_group_pattern = re.compile(r'^\d+.*years\b.*', re.MULTILINE)
@@ -55,7 +55,7 @@ class KaunasGrandPrixParser(Parser):
 
     def get_result_time(self, time):
         match = re.findall(re.compile(r"(\d)?[:]?(\d{2})[.](\d{2})"), time)[0]
-        return '00:'+match[0].rjust(2,'0')+":"+match[1]+'.'+match[2]
+        return '00:' + match[0].rjust(2, '0') + ":" + match[1] + '.' + match[2]
 
     def get_competition_city(self, area):
         area = area.split('\n')
@@ -106,6 +106,7 @@ class KaunasGrandPrixParser(Parser):
             results = delete_blank_lines(results)
             return results
 
+        root = {"event": None}
         event = {
             "name": "",
             "description": "",
@@ -167,7 +168,7 @@ class KaunasGrandPrixParser(Parser):
 
             discipline_description = re.findall(
                 self.discipline_desc_pattern, competition_area[0])[0]
-                # (group, distance, style)
+            # (group, distance, style)
             discipline["distance"] = discipline_description[1]
             discipline["style"] = discipline_description[2]
 
@@ -240,7 +241,7 @@ class KaunasGrandPrixParser(Parser):
                 competition["result"] = results_list
                 event["competition"] = [competition]
                 event["pool"] = pool
-
+                root["event"] = event
                 new_json_file_name = '{0}_{1}_{2}_{3}_{4}_{5}.json'.format(
                     event["name"].replace(' ', ''),
                     competition["comp_date"],
@@ -249,6 +250,4 @@ class KaunasGrandPrixParser(Parser):
                     discipline_description[0],
                     group["name"]
                 )
-                self.write_to_json(new_json_file_name, event)
-
-
+                self.write_to_json(new_json_file_name, root)
