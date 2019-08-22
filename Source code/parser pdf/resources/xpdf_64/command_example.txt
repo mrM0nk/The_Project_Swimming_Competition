@@ -1,0 +1,1 @@
+pdftotext.exe -table -nopgbrk -enc UTF-8 "1.pdf"
