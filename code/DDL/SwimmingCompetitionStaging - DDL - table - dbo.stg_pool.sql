@@ -16,6 +16,6 @@ CREATE TABLE dbo.stg_pool
 
     CONSTRAINT PK_stg_pool PRIMARY KEY (
         pool_id
-	)
+    )
 )
 GO

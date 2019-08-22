@@ -21,6 +21,6 @@ CREATE TABLE dbo.stg_competition
 
     CONSTRAINT PK_stg_competition PRIMARY KEY (
         competition_id
-	)
+    )
 )
 GO

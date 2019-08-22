@@ -14,6 +14,6 @@ CREATE TABLE dbo.stg_group
 
     CONSTRAINT PK_stg_group PRIMARY KEY (
         group_id
-	)
+    )
 )
 GO

@@ -14,6 +14,6 @@ CREATE TABLE dbo.stg_discipline
 
     CONSTRAINT PK_stg_discipline PRIMARY KEY (
         discipline_id
-	)
+    )
 )
 GO
