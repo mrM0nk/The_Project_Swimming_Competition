@@ -1,6 +1,7 @@
 USE SwimmingCompetitionStaging
 GO
 
+
 IF OBJECT_ID('dbo.stg_norm', 'U') IS NOT NULL
     DROP TABLE dbo.stg_norm
 GO

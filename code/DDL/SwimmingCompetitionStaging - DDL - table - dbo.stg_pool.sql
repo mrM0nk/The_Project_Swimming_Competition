@@ -1,6 +1,7 @@
 USE SwimmingCompetitionStaging
 GO
 
+
 IF OBJECT_ID('dbo.stg_pool', 'U') IS NOT NULL
     DROP TABLE dbo.stg_pool
 GO
