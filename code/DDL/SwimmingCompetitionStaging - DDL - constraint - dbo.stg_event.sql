@@ -13,7 +13,7 @@ ALTER TABLE dbo.stg_event
     ADD CONSTRAINT AK_stg_event_name_stage UNIQUE
 (
     [name],
-	stage
+    stage
 )
 GO
 */

@@ -1,6 +1,27 @@
 USE SwimmingCompetitionStaging
 GO
 
+/*
+IF EXISTS(SELECT 1 
+          FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS 
+          WHERE CONSTRAINT_NAME = 'AK_stg_competition_event_id_pool_id_discipline_id_group_id_date_city_country')
+    ALTER TABLE dbo.stg_competition 
+    DROP CONSTRAINT AK_stg_competition_event_id_pool_id_discipline_id_group_id_date_city_country
+GO
+
+ALTER TABLE dbo.stg_competition
+    ADD CONSTRAINT AK_stg_competition_event_id_pool_id_discipline_id_group_id_date_city_country UNIQUE
+(
+    event_id,
+    pool_id,
+    discipline_id,
+    group_id,
+    [date],
+    city,
+    country
+)
+GO
+*/
 
 IF OBJECT_ID('DF_stg_competition_event_id', 'D') IS NOT NULL
     ALTER TABLE dbo.stg_competition 
