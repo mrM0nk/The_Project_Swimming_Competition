@@ -1,7 +1,7 @@
 USE [Audit]
 GO
 
-/*
+
 IF EXISTS(SELECT 1 
           FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS 
           WHERE CONSTRAINT_NAME = 'BK_bad_data_process_load_status_id_error_datetime')
@@ -16,7 +16,7 @@ ALTER TABLE dbo.bad_data
     error_datetime
 )
 GO
-*/
+
 
 IF OBJECT_ID('DF_bad_data_modified_date', 'D') IS NOT NULL
     ALTER TABLE dbo.bad_data 

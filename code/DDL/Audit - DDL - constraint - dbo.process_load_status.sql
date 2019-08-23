@@ -1,7 +1,7 @@
 USE [Audit]
 GO
 
-/*
+
 IF EXISTS(SELECT 1 
           FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS 
           WHERE CONSTRAINT_NAME = 'BK_process_load_status_process_name_start_process')
@@ -16,7 +16,7 @@ ALTER TABLE dbo.process_load_status
     start_process
 )
 GO
-*/
+
 
 IF OBJECT_ID('DF_process_load_status_modified_date', 'D') IS NOT NULL
     ALTER TABLE dbo.process_load_status 
