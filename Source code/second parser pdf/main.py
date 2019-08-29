@@ -57,7 +57,7 @@ def clean(string):
 
 def get_time(string):
     if any(map(str.isdigit, string)):
-        string = string.replace('.', ':')
+        string = string.replace('.', ':', 1)
         string = string.replace(',', '.')
         if string.index('.') == 2:
             string = "00:00:" + string
