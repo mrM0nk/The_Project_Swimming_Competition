@@ -98,7 +98,7 @@ class KaunasGrandPrixParser(Parser):
     def parse_file(self, file_path):
 
         def delete_blank_lines(text_data):
-            return text_data.replace('\n\n', '\n')
+            return text_data.replace("\n\n", "\n")
 
         def clean_results(text_data):
             results = re.sub(self.page_delimiter_pattern1, '', text_data, count=0)
@@ -106,7 +106,17 @@ class KaunasGrandPrixParser(Parser):
             results = delete_blank_lines(results)
             return results
 
-        root = {"event": None}
+        def convert_to_four_digit_year(year):
+            result_year = ""
+            year = str.strip(year)
+            if len(year) == 2:
+                if int(year) <= 50:
+                    result_year = "2" + str.rjust(year, 3, "0")
+                elif int(year) > 50:
+                    result_year = "19" + year
+            return int(result_year)
+
+        json_root = {"event": None}
         event = {
             "name": "",
             "description": "",
@@ -168,7 +178,7 @@ class KaunasGrandPrixParser(Parser):
 
             discipline_description = re.findall(
                 self.discipline_desc_pattern, competition_area[0])[0]
-            # (group, distance, style)
+            # discipline_description=(group, distance, style)
             discipline["distance"] = discipline_description[1]
             discipline["style"] = discipline_description[2]
 
@@ -206,7 +216,7 @@ class KaunasGrandPrixParser(Parser):
                     }
                     result["first_name"] = row[0]
                     result["last_name"] = row[1]
-                    result["birth_year"] = int("20" + row[2])
+                    result["birth_year"] = convert_to_four_digit_year(row[2])
                     result["club_name"] = ' '.join(row[3].split())
                     result["result_time"] = self.get_result_time(row[4])
                     result["gender"] = gender
@@ -229,7 +239,7 @@ class KaunasGrandPrixParser(Parser):
                     }
                     result["first_name"] = row[1]
                     result["last_name"] = row[2]
-                    result["birth_year"] = int("20" + row[3])
+                    result["birth_year"] = convert_to_four_digit_year(row[3])
                     result["club_name"] = ' '.join(row[4].split())
                     result["dsq"] = row[0]
                     result["gender"] = gender
@@ -241,7 +251,8 @@ class KaunasGrandPrixParser(Parser):
                 competition["result"] = results_list
                 event["competition"] = [competition]
                 event["pool"] = pool
-                root["event"] = event
+                json_root["event"] = event
+
                 new_json_file_name = '{0}_{1}_{2}_{3}_{4}_{5}.json'.format(
                     event["name"].replace(' ', ''),
                     competition["comp_date"],
@@ -250,4 +261,4 @@ class KaunasGrandPrixParser(Parser):
                     discipline_description[0],
                     group["name"]
                 )
-                self.write_to_json(new_json_file_name, root)
+                self.write_to_json(new_json_file_name, json_root)
