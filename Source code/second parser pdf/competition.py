@@ -160,7 +160,7 @@ class Pool:
         self.pool_name = kwargs['pool_name'] if 'pool_name' in kwargs else None
         self.pool_city = kwargs['pool_city'] if 'pool_city' in kwargs else None
         self.pool_country = kwargs['pool_country'] if 'pool_country' in kwargs else None
-        self.pool_size = kwargs['pool_size'] if 'pool_size' in kwargs else None
+        self.pool_size = int(kwargs['pool_size']) if 'pool_size' in kwargs else None
 
     def get_attributes(self):
         return {'pool_name': self.pool_name, 'pool_city': self.pool_city, 'pool_country': self.pool_country,
