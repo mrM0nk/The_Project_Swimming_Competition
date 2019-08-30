@@ -1,4 +1,5 @@
 import json
+import os
 
 
 class Result:
@@ -134,24 +135,37 @@ class Event:
         self.description = kwargs['description'] if 'description' in kwargs else ''
         self.stage = kwargs['stage'] if 'stage' in kwargs else None
         self.competition = kwargs['competition'] if 'competition' in kwargs else []
+        self.save_one_swim = kwargs['save_format'] if 'save_format' in kwargs else True
+        self.save_dir = kwargs['save_dir'] if 'save_dir' in kwargs else 'jsons'
 
-    def get_attributes(self, index_comp):
+    def get_attributes(self, index_comp=-1):  # если не указать index_comp, то вернет весь список заплывов
         keys = ['name', 'description', 'stage', 'competition']
-        comp = [self.competition[index_comp].get_attributes()]
+        if index_comp < 0:
+            comp = [competition.get_attributes() for competition in self.competition]
+        else:
+            comp = [self.competition[index_comp].get_attributes()]
         values = [self.name, self.description, self.stage, comp]
         return {key: value for (key, value) in zip(keys, values)}
 
     def save_json(self, pool):
-        for i in range(len(self.competition)):
-            file_name = "json/stage {} {} {} {} {}.json".format(self.stage,
-                                                                self.competition[i].discipline['distance'],
-                                                                self.competition[i].discipline['style'],
-                                                                self.competition[i].group['gender'],
-                                                                self.competition[i].group['name'])
-            comp = {'event': self.get_attributes(i), 'pool': pool.get_attributes()}
+        if not os.path.isdir(self.save_dir):
+            os.makedirs(self.save_dir)
+        if self.save_one_swim:
+            for i in range(len(self.competition)):
+                file_name = "{}/stage {} {} {} {} {}.json".format(self.save_dir,
+                                                                  self.stage,
+                                                                  self.competition[i].discipline['distance'],
+                                                                  self.competition[i].discipline['style'],
+                                                                  self.competition[i].group['gender'],
+                                                                  self.competition[i].group['name'])
+                comp = {'event': self.get_attributes(i), 'pool': pool.get_attributes()}
+                with open(file_name, "w", encoding="utf-8") as write_file:
+                    json.dump(comp, write_file, sort_keys=False, indent=4, ensure_ascii=False)
+        else:
+            file_name = "{}/stage {}.json".format(self.save_dir, self.stage)
+            event = {'event': self.get_attributes(), 'pool': pool.get_attributes()}
             with open(file_name, "w", encoding="utf-8") as write_file:
-                json.dump(comp, write_file, sort_keys=False, indent=4,
-                          ensure_ascii=False)
+                json.dump(event, write_file, sort_keys=False, indent=4, ensure_ascii=False)
 
 
 class Pool:

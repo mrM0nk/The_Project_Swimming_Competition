@@ -147,7 +147,8 @@ def run_second_parser(content, **kwargs):
         pool_name = ' '.join(third_row[3: -1])
         pool_size = third_row[-1].lstrip('(').rstrip(')').rstrip('м')
         pool = Pool(pool_name=pool_name, pool_city=city, pool_size=pool_size, pool_country=kwargs['country'])
-        event = Event(name=kwargs['event_name'], stage=stage)
+        event = Event(name=kwargs['event_name'], stage=stage, save_format=kwargs['save_one_swim'],
+                      save_dir=kwargs['save_dir'])
         return event, pool, date
 
     distance, style = None, None
@@ -230,7 +231,7 @@ def run_first_parser(content, **kwargs):
         str_size = str_size.strip(')')
         pool_size = int(str_size[: -1])
         pool = Pool(pool_name=pool_name, pool_city=city, pool_size=pool_size, pool_country=kwargs['country'])
-        event = Event(name=kwargs['event_name'], stage=stage)
+        event = Event(name=kwargs['event_name'], stage=stage, save_format=kwargs['save_one_swim'], save_dir=kwargs['save_dir'])
         return event, pool, date
 
     distance, style = None, None
@@ -300,10 +301,10 @@ def run_first_parser(content, **kwargs):
 if __name__ == "__main__":
     with open("config.json") as config_file:
         configs = json.loads(config_file.read())
-        for config in configs['arr_pdf']:
-            pdf = Pdf(config['file_name'])
-            content = pdf.get_content()
-            if determine_type(content):
-                run_second_parser(content, **config)
-            else:
-                run_first_parser(content, **config)
+    for config in configs['arr_pdf']:
+        pdf = Pdf(config['file_name'])
+        content = pdf.get_content()
+        if determine_type(content):
+            run_second_parser(content, **config)
+        else:
+            run_first_parser(content, **config)

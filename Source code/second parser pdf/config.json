@@ -1,11 +1,32 @@
 {
 	"arr_pdf": [
 		{	
+			"file_name": "3.pdf",
+			"country": "Belarus", 
+			"event_name": "3-й традицонный турнир <<Кубок надежд>> в программе открытого первенства минской области",  
+			"save_one_swim": false, 
+			"save_dir": "tournament3"
+		}, 
+		{	
+			"file_name": "4.pdf",
+			"country": "Belarus", 
+			"event_name": "4-й традицонный турнир <<Кубок надежд>> в программе открытого первенства минской области",  
+			"save_one_swim": false, 
+			"save_dir": "tournament4"
+		}, 
+		{	
 			"file_name": "5.pdf",
 			"country": "Belarus", 
-			"event_name": "5-й традицонный турнир <<Кубок надежд>> в программе открытого первенства минской области", 
-			"folder_where_to_save_the_file": "tournament4", 
-			"save_one_swim": true
+			"event_name": "5-й традицонный турнир <<Кубок надежд>> в программе открытого первенства минской области",  
+			"save_one_swim": false, 
+			"save_dir": "tournament5"
+		}, 
+		{	
+			"file_name": "7.pdf",
+			"country": "Belarus", 
+			"event_name": "7-й традицонный турнир <<Кубок надежд>> в программе открытого первенства минской области",  
+			"save_one_swim": false, 
+			"save_dir": "tournament7"
 		}
 	]
 }
