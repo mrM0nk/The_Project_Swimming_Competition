@@ -10,7 +10,6 @@ CREATE TABLE dbo.stg_event
 (
     event_id       INT            NOT NULL  IDENTITY,
     [name]         NVARCHAR(255)  NOT NULL,
-    stage          SMALLINT       NOT NULL, 
     [description]  NVARCHAR(MAX),
     modified_date  DATETIME       NOT NULL,
 

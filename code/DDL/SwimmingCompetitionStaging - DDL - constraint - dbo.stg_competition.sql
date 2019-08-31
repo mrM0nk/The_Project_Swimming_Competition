@@ -4,18 +4,19 @@ GO
 /*
 IF EXISTS(SELECT 1 
           FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS 
-          WHERE CONSTRAINT_NAME = 'AK_stg_competition_event_id_pool_id_discipline_id_group_id_date_city_country')
+          WHERE CONSTRAINT_NAME = 'AK_stg_competition_event_id_pool_id_discipline_id_group_id_stage_date_city_country')
     ALTER TABLE dbo.stg_competition 
-    DROP CONSTRAINT AK_stg_competition_event_id_pool_id_discipline_id_group_id_date_city_country
+    DROP CONSTRAINT AK_stg_competition_event_id_pool_id_discipline_id_group_id_stage_date_city_country
 GO
 
 ALTER TABLE dbo.stg_competition
-    ADD CONSTRAINT AK_stg_competition_event_id_pool_id_discipline_id_group_id_date_city_country UNIQUE
+    ADD CONSTRAINT AK_stg_competition_event_id_pool_id_discipline_id_group_id_stage_date_city_country UNIQUE
 (
     event_id,
     pool_id,
     discipline_id,
     group_id,
+    stage,
     [date],
     city,
     country
@@ -67,6 +68,17 @@ ALTER TABLE dbo.stg_competition
 GO
 
 
+IF OBJECT_ID('DF_stg_competition_stage', 'D') IS NOT NULL
+    ALTER TABLE dbo.stg_competition 
+    DROP CONSTRAINT DF_stg_competition_stage
+GO
+
+ALTER TABLE dbo.stg_competition
+    ADD CONSTRAINT DF_stg_competition_stage 
+    DEFAULT (-1) FOR stage
+GO
+
+
 IF OBJECT_ID('DF_stg_competition_city', 'D') IS NOT NULL
     ALTER TABLE dbo.stg_competition 
     DROP CONSTRAINT DF_stg_competition_city
@@ -99,7 +111,7 @@ ALTER TABLE dbo.stg_competition
     DEFAULT (GETDATE()) FOR modified_date
 GO
 
-
+/*
 IF EXISTS(SELECT 1
           FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
           WHERE CONSTRAINT_NAME = 'FK_stg_competition_stg_event')
@@ -154,3 +166,4 @@ ALTER TABLE dbo.stg_competition
     FOREIGN KEY (group_id) 
     REFERENCES dbo.stg_group (group_id)
 GO
+*/

@@ -18,6 +18,18 @@ ALTER TABLE dbo.stg_discipline
 GO
 */
 
+
+IF OBJECT_ID('DF_stg_discipline_distance', 'D') IS NOT NULL
+    ALTER TABLE dbo.stg_discipline 
+    DROP CONSTRAINT DF_stg_discipline_distance
+GO
+
+ALTER TABLE dbo.stg_discipline
+    ADD CONSTRAINT DF_stg_discipline_distance 
+    DEFAULT (-1) FOR distance
+GO
+
+
 IF OBJECT_ID('DF_stg_discipline_modified_date', 'D') IS NOT NULL
     ALTER TABLE dbo.stg_discipline 
     DROP CONSTRAINT DF_stg_discipline_modified_date

@@ -47,7 +47,7 @@ GO
 
 ALTER TABLE dbo.stg_pool
     ADD CONSTRAINT DF_stg_pool_pool_size 
-    DEFAULT (0) FOR pool_size
+    DEFAULT (-1) FOR pool_size
 GO
 
 
