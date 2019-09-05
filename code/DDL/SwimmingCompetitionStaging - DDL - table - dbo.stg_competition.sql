@@ -13,6 +13,7 @@ CREATE TABLE dbo.stg_competition
     pool_id          INT           NOT NULL,
     discipline_id    INT           NOT NULL,
     group_id         INT           NOT NULL,
+    stage            SMALLINT      NOT NULL,
     [date]           DATE          NOT NULL,
     city             NVARCHAR(30)  NOT NULL,
     country          NVARCHAR(40)  NOT NULL,

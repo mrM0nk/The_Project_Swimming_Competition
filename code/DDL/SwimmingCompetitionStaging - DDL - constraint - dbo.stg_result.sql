@@ -61,7 +61,7 @@ GO
 
 ALTER TABLE dbo.stg_result
     ADD CONSTRAINT DF_stg_result_birth_year
-    DEFAULT (0) FOR birth_year
+    DEFAULT (-1) FOR birth_year
 GO
 
 
@@ -86,7 +86,7 @@ ALTER TABLE dbo.stg_result
     DEFAULT (GETDATE()) FOR modified_date
 GO
 
-
+/*
 IF EXISTS(SELECT 1
           FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
           WHERE CONSTRAINT_NAME = 'FK_stg_result_stg_competition')
@@ -99,3 +99,4 @@ ALTER TABLE dbo.stg_result
     FOREIGN KEY (competition_id) 
     REFERENCES dbo.stg_competition (competition_id)
 GO
+*/

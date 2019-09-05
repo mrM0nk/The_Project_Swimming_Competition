@@ -120,7 +120,6 @@ class KaunasGrandPrixParser(Parser):
         event = {
             "name": "",
             "description": "",
-            "stage": "",
             "competition": list(),
             "pool": None
         }
@@ -149,7 +148,8 @@ class KaunasGrandPrixParser(Parser):
                 "discipline": dict(),
                 "group": dict(),
                 "record": dict(),
-                "result": list()
+                "result": list(),
+                "stage": ""
             }
             discipline = {
                 "style": "",
