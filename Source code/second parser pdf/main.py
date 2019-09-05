@@ -111,7 +111,7 @@ def get_record(string, gender):
     return record
 
 
-def get_additional_comp(string, date, pool_city):
+def get_additional_comp(string, date, stage, pool_city):
     distance, other = string.split('м', 1)
     try:
         style, category = other.split(':', 1)
@@ -119,7 +119,7 @@ def get_additional_comp(string, date, pool_city):
         style, category = other.split('–', 1)
     gender = get_gender(string)
     comp = Competition(comp_date=date, comp_city=pool_city, distance=distance, style=style, group_name=category,
-                       group_gender=gender)
+                       stage=stage, group_gender=gender)
     return comp
 
 
@@ -147,19 +147,18 @@ def run_second_parser(content, **kwargs):
         pool_name = ' '.join(third_row[3: -1])
         pool_size = third_row[-1].lstrip('(').rstrip(')').rstrip('м')
         pool = Pool(pool_name=pool_name, pool_city=city, pool_size=pool_size, pool_country=kwargs['country'])
-        event = Event(name=kwargs['event_name'], stage=stage, save_format=kwargs['save_one_swim'],
-                      save_dir=kwargs['save_dir'])
-        return event, pool, date
+        event = Event(name=kwargs['event_name'], save_format=kwargs['save_one_swim'], save_dir=kwargs['save_dir'])
+        return event, pool, date, stage
 
     distance, style = None, None
-    event, pool, date = pars_header(page=content[0], **kwargs)
+    event, pool, date, stage = pars_header(page=content[0], **kwargs)
     flag_new_event, additional_heats = False, False
     for namb, page in enumerate(content):  # идем по страницам
         if flag_new_event:  # новый event, pool и date
             try:  # если нет даты, то конец документа
                 new_date = get_date(page)
                 if new_date != date:
-                    event, pool, date = pars_header(page, **kwargs)
+                    event, pool, date, stage = pars_header(page, **kwargs)
                     flag_new_event = False  # перешли к следующему event
                 else:
                     continue
@@ -184,14 +183,14 @@ def run_second_parser(content, **kwargs):
                     elif 'секретарь' in page[j][4]:
                         secretary = ' '.join(page[j][4].split()[-3:])
                     j += 1
-                for comp in event.competition:  # обновляем атр
+                for comp in event.competition:  # обновляем атрибуты
                     comp.comp_chief_judge = judge
                     comp.comp_chief_secretary = secretary
                 event.save_json(pool=pool)
                 flag_new_event, additional_heats = True, False  # переходим к следующему event
                 break
             if additional_heats and element[0] > 100 and element[0] < 300:  # получаем доп.competition
-                new_comp = get_additional_comp(element[4], date, pool.pool_city,)
+                new_comp = get_additional_comp(element[4], date, stage, pool.pool_city,)
                 event.competition.append(new_comp)
                 continue
             elif additional_heats and element[0] > 40 and element[0] <100:  # получаем результат доп.competition
@@ -209,7 +208,7 @@ def run_second_parser(content, **kwargs):
                 gender = get_gender(group)
                 group_name = get_group_name(group)
                 new_comp = Competition(comp_date=date, comp_city=pool.pool_city, distance=distance, style=style,
-                                       group_name=group_name, group_gender=gender)
+                                       stage=stage, group_name=group_name, group_gender=gender)
                 event.competition.append(new_comp)
             elif (element[0] > 23 and element[0] < 34.5) or (element[0] > 35 and element[0] < 36):  # результаты
                 result = get_result(element[4], gender)
@@ -231,11 +230,11 @@ def run_first_parser(content, **kwargs):
         str_size = str_size.strip(')')
         pool_size = int(str_size[: -1])
         pool = Pool(pool_name=pool_name, pool_city=city, pool_size=pool_size, pool_country=kwargs['country'])
-        event = Event(name=kwargs['event_name'], stage=stage, save_format=kwargs['save_one_swim'], save_dir=kwargs['save_dir'])
-        return event, pool, date
+        event = Event(name=kwargs['event_name'], save_format=kwargs['save_one_swim'], save_dir=kwargs['save_dir'])
+        return event, pool, date, stage
 
     distance, style = None, None
-    event, pool, date = pars_header(content=content[0], **kwargs)
+    event, pool, date, stage = pars_header(content=content[0], **kwargs)
     flag_new_event, additional_heats = False, False
     for namb, page in enumerate(content):  # идем по страницам
         if flag_new_event:  # новый event, pool и date
@@ -244,7 +243,7 @@ def run_first_parser(content, **kwargs):
             except:
                 break
             if new_date != date:
-                event, pool, date = pars_header(page,  **kwargs)
+                event, pool, date, stage = pars_header(page,  **kwargs)
                 flag_new_event = False  # перешли к следующему event
             else:
                 continue
@@ -270,7 +269,7 @@ def run_first_parser(content, **kwargs):
                 else:
                     continue
             if additional_heats and element[0] > 100 and element[0] < 300:  # получаем доп.competition
-                new_comp = get_additional_comp(element[4], date, pool.pool_city,)
+                new_comp = get_additional_comp(element[4], date, stage, pool.pool_city,)
                 event.competition.append(new_comp)
                 continue
             elif additional_heats and element[0] > 40 and element[0] <100:  # получаем результат доп.competition
@@ -288,7 +287,7 @@ def run_first_parser(content, **kwargs):
                 gender = get_gender(group)
                 group_name = get_group_name(group)
                 new_comp = Competition(comp_date=date, comp_city=pool.pool_city, distance=distance, style=style,
-                                       group_name=group_name, group_gender=gender)
+                                       stage=stage, group_name=group_name, group_gender=gender)
                 event.competition.append(new_comp)
             elif (element[0] > 32.2 and element[0] < 34) or (element[0] > 35 and element[0] < 36):  # результаты
                 result = get_result(element[4], gender)
